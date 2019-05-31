@@ -20,27 +20,35 @@ import { autoReveal } from "./reveal.js";
  *~ loaded outside a module loader environment, declare that global here.
  *~ Otherwise, delete this declaration.
  */
-export as namespace RHElement;
+export as namespace PFElement;
 
 /*~ This declaration specifies that the class constructor function
  *~ is the exported object from the file
  */
-export = RHElement;
+export = PFElement;
 
 /*~ Write your module's methods and properties in this class */
-declare class RHElement extends HTMLElement{
-    static create(rhe: RHElement): void;
+declare class PFElement extends HTMLElement{
+    static create(rhe: PFElement): void;
     static debugLog(preference?: any): void;
     static log(...msgs:string[]): void;
-    static RhTypes(): Object;
-    constructor(rhClass: RHElement, {type, delayRender}?: {type?: string, delayRender?: boolean});
+    static var(name:string, element:HTMLElement): string;
+    static PfeTypes(): Object;
+    constructor(pfeClass: PFElement, {type, delayRender}?: {type?: string, delayRender?: boolean});
     connectedCallback(): void;
+    disconnectedCallback(): void;
     attributeChangedCallback(attr: string, oldVal:any, newVal:any): void;
-    rhType: string;
+    pfeType: string;
     _copyAttribute(name:string, to:string): void;
-    _queueAction(action: any);
+    _mapSchemaToProperties(tag:string, properties: Object): void;
+    _mapSchemaToSlots(tag:string, slots: Object): void;
+    _hasDependency(tag: string, opts: Object): boolean;
+    _queueAction(action: any): void;
     _processQueue(): void;
     _setProperty(name?: string, value?: any): void;
+    has_slot(name:string) : boolean;
+    has_slots(name:string) : Array;
+    var(name): string;
     render(): void;
     log(...msgs: string[]): void;
 }
