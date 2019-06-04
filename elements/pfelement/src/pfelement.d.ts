@@ -48,7 +48,7 @@ declare class PFElement extends HTMLElement{
     _setProperty(name?: string, value?: any): void;
     has_slot(name:string) : boolean;
     has_slots(name:string) : Array<boolean>;
-    var(name): string;
+    var(name: string): string;
     render(): void;
     log(...msgs: string[]): void;
 }
