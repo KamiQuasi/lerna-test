@@ -274,7 +274,8 @@ module.exports = function factory({
   task("copy", () => {
     return src([
       "*.js",
-      `!${elementName}.js`
+      `!${elementName}.js`,
+      "*.d.ts"
     ], {
       cwd: paths.source
     })
