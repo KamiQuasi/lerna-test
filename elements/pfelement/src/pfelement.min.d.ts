@@ -25,7 +25,7 @@ export as namespace PFElement;
 /*~ This declaration specifies that the class constructor function
  *~ is the exported object from the file
  */
-//export = PFElement;
+export = PFElement;
 
 /*~ Write your module's methods and properties in this class */
 declare class PFElement extends HTMLElement{

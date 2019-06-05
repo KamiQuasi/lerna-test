@@ -1,8 +1,14 @@
 import { autoReveal } from "./reveal.js";
+import { string } from "postcss-values-parser";
 const prefix = "pfe-";
 
+interface PFElement {
+    tag: string;
+    html?: string; 
+}
+
 export class PFElement extends HTMLElement {
-  static create(pfe) {
+  static create(pfe: PFElement) {
     window.customElements.define(pfe.tag, pfe);
   }
 
