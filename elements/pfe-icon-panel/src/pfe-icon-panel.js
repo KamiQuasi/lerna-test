@@ -1,4 +1,4 @@
-import PFElement from "../pfelement/pfelement.js";
+import {PFElement} from "../pfelement/pfelement.js";
 import "../pfe-icon/pfe-icon.js";
 
 class PfeIconPanel extends PFElement {

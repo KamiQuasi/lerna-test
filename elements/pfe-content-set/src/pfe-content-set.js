@@ -1,4 +1,4 @@
-import PFElement from "../pfelement/pfelement.js";
+import {PFElement} from "../pfelement/pfelement.js";
 import PfeAccordion from "../pfe-accordion/pfe-accordion.js";
 import PfeTabs from "../pfe-tabs/pfe-tabs.js";
 

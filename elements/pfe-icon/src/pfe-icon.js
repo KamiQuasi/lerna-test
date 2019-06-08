@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import PFElement from "../pfelement/pfelement.js";
+import {PFElement} from "../pfelement/pfelement.js";
 
 const templateId = "pfe-icon-head";
 if (!document.getElementById(templateId)) {
