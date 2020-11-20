@@ -1,5 +1,6 @@
 import PFElement from "../../pfelement/dist/pfelement.js";
 import PfeIcon from "../../pfe-icon/dist/pfe-icon.js";
+import PfeAvatar from "../../pfe-avatar/dist/pfe-avatar.js";
 import "../../pfe-progress-indicator/dist/pfe-progress-indicator.js";
 
 /**
@@ -103,6 +104,10 @@ class PfeNavigation extends PFElement {
     this._siteSwitcherWrapperOuter = this.shadowRoot.querySelector(`.${this.tag}__all-red-hat-wrapper`);
     this._siteSwitcherWrapper = this.shadowRoot.querySelector(".pfe-navigation__all-red-hat-wrapper__inner");
     this._siteSwitchLoadingIndicator = this.shadowRoot.querySelector("#site-loading");
+    this._userMenuToggle = this.shadowRoot.getElementById("secondary-links__button--user-menu");
+    this._userMenuToggleBack = this.shadowRoot.querySelector(`#${this.tag}__user-menu-toggle--back`);
+    this._userMenuWrapperOuter = this.shadowRoot.querySelector(`.${this.tag}__user-menu-wrapper`);
+    this._userMenuWrapper = this.shadowRoot.querySelector(`.${this.tag}__user-menu-wrapper__inner`);
     this._overlay = this.shadowRoot.querySelector(`.${this.tag}__overlay`);
     this._stickyHandler = this._stickyHandler.bind(this);
 
@@ -134,7 +139,9 @@ class PfeNavigation extends PFElement {
     this._toggleMobileMenu = this._toggleMobileMenu.bind(this);
     this._toggleSearch = this._toggleSearch.bind(this);
     this._toggleAllRedHat = this._toggleAllRedHat.bind(this);
+    this._toggleUserMenu = this._toggleUserMenu.bind(this);
     this._allRedHatToggleBackClickHandler = this._allRedHatToggleBackClickHandler.bind(this);
+    this._userMenuToggleBackClickHandler = this._userMenuToggleBackClickHandler.bind(this);
     this._dropdownItemToggle = this._dropdownItemToggle.bind(this);
     this._addMenuBreakpoints = this._addMenuBreakpoints.bind(this);
     this._collapseMainMenu = this._collapseMainMenu.bind(this);
@@ -154,6 +161,9 @@ class PfeNavigation extends PFElement {
     // close All Red Hat menu and go back to mobile menu
     this._allRedHatToggleBack.addEventListener("click", this._allRedHatToggleBackClickHandler);
 
+    // close User Menu and go back to mobile menu
+    this._userMenuToggleBack.addEventListener("click", this._userMenuToggleBackClickHandler);
+
     // ensure we close the whole menu and hide the overlay when the overlay is clicked
     this._overlay.addEventListener("click", this._overlayClickHandler);
   }
@@ -169,6 +179,7 @@ class PfeNavigation extends PFElement {
 
     this.search = this.querySelector(`[slot="${this.tag}--search"]`);
     this.customlinks = this.querySelector(`[slot="${this.tag}--customlinks"]`);
+    this.user = top.document.querySelector("cpx-user");
 
     const preResizeAdjustments = () => {
       this.classList.add("pfe-navigation--is-resizing");
@@ -207,6 +218,8 @@ class PfeNavigation extends PFElement {
     this._searchToggle.removeEventListener("click", this._toggleSearch);
     this._allRedHatToggle.removeEventListener("click", this._toggleAllRedHat);
     this._allRedHatToggleBack.removeEventListener("click", this._allRedHatToggleBackClickHandler);
+    this._userMenuToggle.removeEventListener("click", this._toggleUserMenu);
+    this._userMenuToggleBack.removeEventListener("click", this._userMenuToggleBackClickHandler);
     this.removeEventListener("keydown", this._generalKeyboardListener);
 
     if (this.hasAttribute("pfe-sticky") && this.getAttribute("pfe-sticky") != "false") {
@@ -519,6 +532,9 @@ class PfeNavigation extends PFElement {
           break;
         case "secondary-links__button--all-red-hat":
           dropdownId = "secondary-links__dropdown--all-red-hat";
+          break;
+        case "secondary-links__button--user-menu":
+          dropdownId = "secondary-links__dropdown--user-menu";
           break;
       }
     } else if (toggleId === "mobile__button") {
@@ -834,6 +850,9 @@ class PfeNavigation extends PFElement {
     // Add All Red Hat toggle behavior
     this._allRedHatToggle.addEventListener("click", this._toggleAllRedHat);
 
+    // Add User Menu toggle behavior
+    this._userMenuToggle.addEventListener("click", this._toggleUserMenu);
+
     // General keyboard listener attached to the entire component
     // @todo/bug: figure out why this event listener only fires once you have tabbed into the menu but not if you have just clicked open menu items with a mouse click on Firefox - functions properly on Chrome
     this.addEventListener("keydown", this._generalKeyboardListener);
@@ -845,6 +864,7 @@ class PfeNavigation extends PFElement {
     this._addCloseDropdownAttributes(this._mobileToggle, this._currentMobileDropdown);
     this._addCloseDropdownAttributes(this._searchToggle, this._searchSpotMd);
     this._addCloseDropdownAttributes(this._allRedHatToggle, this._siteSwitcherWrapperOuter);
+    this._addCloseDropdownAttributes(this._userMenuToggle, this._userMenuWrapperOuter);
 
     this._setCurrentMobileDropdown();
 
@@ -1054,6 +1074,13 @@ class PfeNavigation extends PFElement {
       if (allRedHatDropdown && this.isOpen("secondary-links__button--all-red-hat")) {
         this._addOpenDropdownAttributes(this._allRedHatToggle, allRedHatDropdown);
       }
+      // Add JS height to "User Menu Dropdown" if it is open
+      const userMenuDropdown = this.shadowRoot.getElementById(
+        this._getDropdownId("secondary-links__button--user-menu")
+      );
+      if (userMenuDropdown && this.isOpen("secondary-links__button--user-menu")) {
+        this._addOpenDropdownAttributes(this._userMenuToggle, userMenuDropdown);
+      }
     }
     // If we went from desktop/tablet to mobile
     else if (!this._wasSecondaryLinksSectionCollapsed && isSecondaryLinksSectionCollapsed) {
@@ -1101,6 +1128,13 @@ class PfeNavigation extends PFElement {
     if (this.isOpen("mobile__button")) {
       // if this is the mobile menu and the All Red Hat Toggle is clicked set focus to Back to Menu Button inside of All Red Hat Menu
       this._allRedHatToggleBack.focus();
+    }
+  }
+
+  _toggleUserMenu(event) {
+    this._changeNavigationState("secondary-links__button--user-menu");
+    if (this.isOpen("mobile__button")) {
+      this._userMenuToggleBack.focus();
     }
   }
 
@@ -1165,6 +1199,11 @@ class PfeNavigation extends PFElement {
   _allRedHatToggleBackClickHandler() {
     this._changeNavigationState("mobile__button", "open");
     this._allRedHatToggle.focus();
+  }
+
+  _userMenuToggleBackClickHandler() {
+    this._changeNavigationState("mobile__button", "open");
+    this._userMenuToggle.focus();
   }
 
   /**

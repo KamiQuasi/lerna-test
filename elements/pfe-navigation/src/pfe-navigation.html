@@ -43,18 +43,29 @@
             </div>
           </div>
         </li>
-
         <slot name="pfe-navigation--custom-links" id="pfe-navigation--custom-links"></slot>
+        <li>
+          <button class="pfe-navigation__user-menu-toggle" id="secondary-links__button--user-menu">
+            <pfe-avatar pfe-shape="circle" pfe-size="md" pfe-src="https://access.redhat.com/api/users/avatar/ldary24" pfe-name="Default User"></pfe-avatar>
+            <!-- <pfe-icon icon="web-icon-user" pfe-size="sm" aria-hidden="true"></pfe-icon>
+            Log In -->
+          </button>
+          <div class="pfe-navigation__user-menu-wrapper" id="secondary-links__dropdown--user-menu">
+            <div class="pfe-navigation__user-menu-toggle--back-wrapper">
+              <button id="pfe-navigation__user-menu-toggle--back" aria-label="Back to main menu">Back to menu</button>
+            </div>
 
+            <div class="pfe-navigation__user-menu-wrapper__inner">
+                <!-- <pfe-progress-indicator></pfe-progress-indicator> -->
+                <slot name="pfe-navigation--user" class="pfe-navigation__user" id="user-slot"></slot>
+            </div>
+          </div>
+        </li>
       </ul>
 
     </div>
   </div>
-
-  <a href="#" class="pfe-navigation__log-in-link">
-    <pfe-icon icon="web-icon-user" pfe-size="sm" aria-hidden="true"></pfe-icon>
-    Log In
-  </a>
+</div>
 
 </div>
 <div class="pfe-navigation__overlay" hidden></div>
