@@ -1112,7 +1112,18 @@ See mixin blocks before selectors that contain the selector name and the three l
 }
 
 .pfe-navigation__user-menu-toggle {
-  flex-direction: row;
+  &.loggedin { 
+    justify-content: center; 
+    pfe-avatar {
+      opacity: 100;
+    }
+    pfe-icon {
+      opacity: 0;
+    }
+  }
+  pfe-avatar {
+    opacity: 0;
+  }
   [pfe-navigation-open-toggle='secondary-links__button--user-menu'] & {
     color: #151515;
     background: #fff;
