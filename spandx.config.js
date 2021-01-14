@@ -22,6 +22,10 @@ module.exports = {
     }
   },
   bs: {
+    https: {
+      key: "localCA-key.pem",
+      cert: "localCA.pem"
+    },
     watchOptions: {
       ignoreInitial: true,
       ignored: ["node_modules", "_temp"]
